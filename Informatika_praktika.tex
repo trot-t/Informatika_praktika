@@ -13,6 +13,11 @@
 
 \usepackage{booktabs}
 
+% для физики
+\usetikzlibrary{arrows,shapes,positioning}
+\usetikzlibrary{decorations.markings,decorations.pathmorphing,
+decorations.pathreplacing}
+\usetikzlibrary{calc,patterns,shapes.geometric}
 
 \usepackage{xcolor}
 \usepackage{hyperref}
@@ -428,4 +433,148 @@ $$
 $$
 1001101_2 = 1\cdot2^6 + 0\cdot 2^5 + 0\cdot2^4 + 1\cdot2^3 + 1\cdot2^2 + 0\cdot2^1 + 1\cdot2^0 = 77_{10}
 $$
+
+\subsection{Геометрические примитивы}
+\begin{tikzpicture}
+  \draw[thin,->] (0,-0.5) -- (0,4) node[left] {${\scriptstyle Y}$};
+  \draw[thin,->] (-0.5,0) -- (5,0) node[below] {${\scriptstyle X}$};
+% изобрразим вектор 
+  \newcommand{\D}{4.6}
+  \newcommand{\alfa}{30}
+  \draw[red,-latex] (0,0) -- ({\D*cos(\alfa)},{\D*sin{\alfa}}) node[above right] {$\vec{V}$};
+  \draw[thin,blue,loosely dashed] ({\D*cos(\alfa)},{\D*sin(\alfa)}) -- ({\D*cos(\alfa)},-0.2) node[below] {$V_x$};
+  \draw[thin,blue,loosely dashed] ({\D*cos(\alfa)},{\D*sin(\alfa)}) -- (-0.1,{\D*sin(\alfa)}) node[left] {$V_y$};
+  \draw[<->,violet] (2.5,0) arc (0:\alfa:2.5) node[midway, above right] {$\alpha$};
+\end{tikzpicture}
+
+Этот вектор начерчен с помощью следующего кода:
+
+\begin{verbatim}
+\begin{tikzpicture}
+  \draw[thin,->] (0,-0.5) -- (0,4) node[left] {${\scriptstyle Y}$};
+  \draw[thin,->] (-0.5,0) -- (5,0) node[below] {${\scriptstyle X}$};
+% изобразим вектор 
+  \newcommand{\D}{4.6}
+  \newcommand{\alfa}{30}
+\draw[red,-latex] (0,0)--({\D*cos(\alfa)},{\D*sin{\alfa}}) node[above right] {$\vec{V}$};
+\draw[thin,blue,dashed] ({\D*cos(\alfa)},{\D*sin{\alfa}})--({\D*cos(\alfa)},0) node[below] {$V_x$};
+\draw[thin,blue,dashed] ({\D*cos(\alfa)},{\D*sin(\alfa)})--(0,{\D*sin(\alfa)}) node[left] {$V_y$};
+\draw[<->,violet] (2.5,0) arc (0:\alfa:2.5) node[midway, above right] {$\alpha$};
+\end{tikzpicture}
+\end{verbatim}
+
+Простое вычерчивание линии от точки с координатами (0,0) до точки с координатами (1,2), где первая координата $x$ -- положение точки по горизонтали, возможно с помощью команды:
+\begin{verbatim}
+\draw (0,0) -- (1,2);
+\end{verbatim}
+Команда должна заканчиваться точкой с запятой.
+
+Относительные координаты можно задать следующим образом:
+\begin{verbatim}
+\draw (0,0) ++-- (1,2);
+\end{verbatim}
+
+Команду {\bf $\backslash$draw} можно подать один раз на несколько линий:
+\begin{verbatim}
+\draw (0,0) -- (1,2)  (1,1) -- (2,4);
+\end{verbatim}
+или, если линии касаются, то среднюю точку можно написать один раз. Это называется путь (path).
+\begin{verbatim}
+\draw (0,0) -- (1,2) -- (2,4) node[at start, above right] {$f(\vec{x})$};
+\end{verbatim}
+
+\begin{tikzpicture}
+\draw (0,0) -- (1,2) -- (2,1) node[at start, above right] {$f(\vec{x})$};
+\end{tikzpicture}
+Путь можно оснастить свойствами: цветом, толщиной: very thin, thin, thick, very thick, стилем линии: dashed, loosely dashed, dotted, началом и/или окончанием линии в виде стрелки ->, <->, =>, -latex.
+
+Путь можно снабдить нодой с формулой внутри. Нода может быть сориентирована относительно точки пути: [at start], [midway], [at end], [below left],
+и далее может быть расположена различным образом относительно этой точки [at end, above right]
+
+Координаты вектора в данном примере вычислялись с помощью параметров: длины вектора и угла, отсчитываемого против часовой стрелки от оси ${\scriptstyle X}$.
+Параметры задаются с помощью {\bf $\backslash$newcommand}
+\begin{verbatim}
+  \newcommand{\D}{4.6}
+  \newcommand{\alfa}{30}
+\end{verbatim}
+
+В тот момент, когда параметры используются, параметры отделяются фигурными скобками, пример: координаты точки \texttt{(\{$\backslash$D*cos($\backslash$alfa)\},{$\backslash$D*sin($\backslash$alfa)})}.
+
+\subsection{Практическая работа №3. Ковариантные и конравариантые координаты вектора в косоугольной системы координат}
+\begin{tikzpicture}[scale=1.2]
+\newcommand{\alfa}{30}
+\newcommand{\teta}{60}
+\newcommand{\D}{5}
+\newcommand{\os}{6}
+\draw[thin,->,>=stealth'] (0,0) -- ({\os},0) node[below] {${\scriptstyle X}$};
+\draw[thin,->,>=stealth'] (0,0) -- ({\os*cos(\teta)},{\os*sin(\teta)}) node[left] {${\scriptstyle Y}$};
+\draw[magenta,thick,->,>=stealth'] (0,0) -- ({\D*cos(\alfa)}, {\D*sin(\alfa)}) node[right] {$\vec{x}$};
+\draw[thin,dashed] ({\D*cos(\alfa)}, {\D*sin(\alfa)}) -- ({\D*cos(\alfa)}, 0) node[below] {$x_1$};
+\draw[thin,dashed] ({\D*cos(\alfa)}, {\D*sin(\alfa)}) -- ({\D*cos(\alfa) - \D*sin(\alfa)/tan(\teta)},0) node[below] {$x^1$};
+\draw[thin,dashed] ({\D*cos(\alfa)}, {\D*sin(\alfa)}) -- ({\D*sin(\alfa)/tan(\teta)}, {\D*sin(\alfa)}) node[left] {$x^2$};
+\draw[thin,dashed] ({\D*cos(\alfa)}, {\D*sin(\alfa)}) -- ({\D*sin(\alfa)/tan(\teta)}, {\D*sin(\alfa)}) node[left] {$x^2$};
+\draw[thin,dashed] ({\D*cos(\alfa)}, {\D*sin(\alfa)}) -- ({\D*cos(\teta-\alfa)*cos(\teta)}, {\D*cos(\teta-\alfa)*sin(\teta)}) node[left] {$x_2$};
+\draw[blue,thin,<->] (1.5,0) arc(0:{\teta}:1.5) node[midway,right] {$\theta=\teta^\circ$};
+\end{tikzpicture}
+
+\subsection{Геометрические примитивы (продолжение)}
+\begin{tikzpicture} [scale=0.75, decoration={coil,aspect=0.4,segment length=3mm,amplitude=3mm}]
+%decoration : gère l'aspect du ressort par l'instruction decorate
+\tikzset{ressort/.style={thick,gray,smooth}} %définition d'un style de ressort
+
+\draw [dashed] (2,-4.5) --++ (4,0);
+\draw node [left] at (2,-4.5) {O}; 
+\draw [->] (2,-4.5) --++ (0,-2) node [left] {$x$};
+\draw [dashed] (2,-5.5) --++ (4,0) ;
+\draw node [left] at (2,-5.5) {$x(t)$} ;
+
+%ressort
+\begin{scope}
+\draw[ressort,decorate] (0,-0.3)--(0,-3) ;
+\draw[thick,gray] (0,0) -- (0,-0.3); 
+\fill [pattern=north east lines] (-0.5,0) rectangle (0.5,0.3); %bloc qui tient le ressort
+\draw[thick] (-0.5,0) -- (0.5,0); %bloc qui tient le ressort
+%fin ressort
+\draw[line width=0.5pt,<->,>=triangle 45](-0.8,0) -- (-0.8,-3) node [midway,left] {$l_0$} ;
+\end{scope}
+
+\begin{scope}[xshift=3cm]%Décalage horizontale de 3 cm
+\draw[ressort,decorate] (0,-0.3)--(0,-4) ;
+
+%bloc qui tient le ressort 
+\draw[thick,gray] (0,0) -- (0,-0.3); \fill [pattern=north east lines] (-0.5,0) rectangle (0.5,0.3); \draw[thick](-0.5,0)--(0.5,0); %fin ressort
+
+\draw[line width=0.5pt,<->,>=triangle 45](-0.8,0) -- (-0.8,-4.1) node [midway,left] {$l_{eq}$} ;
+\draw [thick](0,-4)--(0,-4.5);
+\draw [rounded corners=4pt,color=white,ball color=gray,smooth] (0,-4.5) circle (0.4) ;
+
+\draw [very thick,-latex] (0,-4.5)--++(0,-1.5) node [midway,right=0.25cm] {$\overrightarrow{P}$};
+\draw [very thick,-latex] (0,-4.15)--(0,-2.9) node [midway,right=0.25cm] {$\overrightarrow{T_{eq}}$};
+\end{scope}
+
+\begin{scope}[xshift=6cm]
+\draw[ressort,decorate] (0,-0.3)--(0,-5) ;
+
+%bloc qui tient le ressort 
+\draw[thick,gray] (0,0) -- (0,-0.3); \fill [pattern=north east lines] (-0.5,0) rectangle (0.5,0.3); 
+%pattern définit un style de remplissage de la forme
+\draw[thick](-0.5,0)--(0.5,0); %fin ressort
+
+\draw[line width=0.5pt,<->,>=triangle 45](-0.8,0) -- (-0.8,-5.1) node [midway,left] {$l(t)$} ;
+\draw [thick](0,-5)--(0,-5.5);
+\draw [rounded corners=4pt,color=white,ball color=gray,smooth] (0,-5.5) circle (0.4) ;
+
+%rounded corners = coins arrondis de tant de points
+%ball color = style de forme
+
+\draw [very thick,-latex] (0,-5.5)--++(0,-1.5) node [midway,above=0.1cm,right=0.25cm] {$\overrightarrow{P}$};
+\draw [very thick,-latex] (0,-5.15)--(0,-3.25) node [midway,right=0.25cm] {$\overrightarrow{T}$};
+\end{scope}
+\begin{scope}[xshift=-1cm,yshift=-5.5cm]
+\draw [rounded corners=4pt,color=white,ball color=gray,smooth] (0,-2.5) circle (0.4) node [right=0.75cm,black] 
+{: объект массы  m} ;
+\draw[ressort,decorate,rotate=0] (-0.75,-3.5)--(0.75,-3.5) node [right=0cm,black] {: пружина с коэффициэнтом жесткости k};
+\end{scope}
+\end{tikzpicture}
+
 \end{document}
