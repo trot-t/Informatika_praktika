@@ -28,6 +28,26 @@ decorations.pathreplacing}
 \hypersetup{pdfstartview=FitH,  linkcolor=linkcolor,urlcolor=urlcolor, colorlinks=true}
 
 \definecolor{AleeGreen}{rgb}{0.4,0.8,0.4}
+
+\usepackage{lettrine}
+%\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{dsfont}
+
+
+\tikzset{
+        position label/.style={
+                below = 3pt,
+                text height = 1.5ex,
+                text depth = 1ex
+        },
+        brace/.style={
+                decoration={brace, mirror},
+                decorate
+        }
+}
+
+
 \begin{document}
 
 \section{}
@@ -500,7 +520,8 @@ $$
 
 В тот момент, когда параметры используются, параметры отделяются фигурными скобками, пример: координаты точки \texttt{(\{$\backslash$D*cos($\backslash$alfa)\},{$\backslash$D*sin($\backslash$alfa)})}.
 
-\subsection{Практическая работа №3. Ковариантные и конравариантые координаты вектора в косоугольной системы координат}
+\subsection{Практическая работа №2. Ковариантные и конравариантые координаты вектора в косоугольной системы координат}
+
 \begin{tikzpicture}[scale=1.2]
 \newcommand{\alfa}{30}
 \newcommand{\teta}{60}
@@ -516,6 +537,53 @@ $$
 \draw[thin,dashed] ({\D*cos(\alfa)}, {\D*sin(\alfa)}) -- ({\D*cos(\teta-\alfa)*cos(\teta)}, {\D*cos(\teta-\alfa)*sin(\teta)}) node[left] {$x_2$};
 \draw[blue,thin,<->] (1.5,0) arc(0:{\teta}:1.5) node[midway,right] {$\theta=\teta^\circ$};
 \end{tikzpicture}
+
+
+\subsection{Практическая работа №3 Построение графиков функций}
+
+Пример кода для построения графика:
+\begin{verbatim}
+\begin{tikzpicture}
+\begin{scope}[scale=0.8]
+\newcommand{\xb}{-3}
+\newcommand{\xa}{3}
+\draw[thin, ->] (-6,0) -- (6.5,0) node[right] {$X$};
+\draw[thin, ->] (0,-2.5) -- (0,4) node[left] {$Y$};
+\foreach \x\xtext in 
+   {-5/-5,5/5,{\xb}/\xb,{\xa}/{\displaystyle \frac{-b+\sqrt{b^2-4ac}}{2a}}} % 
+   \draw (\x,0.1) -- (\x,-0.1) node[below] {$\xtext$};
+
+ \draw[domain=-5:5, help lines, smooth, red]
+        plot ({\x},{0.2*(\x-\xa)*(\x-\xb)});
+\ens{scope}
+\end{tikzpicture}
+\end{verbatim}
+
+Результатом будет следующий график:
+
+\begin{tikzpicture}
+\newcommand{\xb}{-3}
+\newcommand{\xa}{3}
+\begin{scope}[scale=0.8]
+\draw[thin, ->] (-6,0) -- (6.5,0) node[right] {$X$};
+\draw[thin, ->] (0,-2.5) -- (0,4) node[left] {$Y$};
+\foreach \x\xtext in
+         {-5/-5,5/5,{\xb}/\xb,{\xa}/{\displaystyle \frac{-b+\sqrt{b^2-4ac}}{2a}}} % 
+  \draw (\x,0.1) -- (\x,-0.1) node[below] {$\xtext$};
+
+ \draw[domain=-5:5, help lines, smooth, red]
+   plot ({\x},{0.2*(\x-\xa)*(\x-\xb)});
+\end{scope} 
+\end{tikzpicture}
+
+Окружение {\bf$\backslash$begin\{scope\}[scale=0.6]} задает область видимости и в этой области задает масштабирование графических примитивов (но не шрифтов)
+с коэфициентом 0.6. Построение функции происходит в области где параметр {\bf $\backslash$x}  пробегает значения от -5 до 5 и определенный областью ${\bf domain=-5:5}$.
+Команда {\bf $\backslash$plot} чертит график по точкам, задаваемыми координатами  (x,y). Координаты x,y вычисляются, отделение вычисляемых значений ограничивается
+фигурными скобками.
+
+Чтобы отобразить существенные точки используется цикл {\bf foreach} по списку пар \{значение/формула\}. Пары  \{значение/формула\} присваиваются параметрам   {\bf $\backslash$x$\backslash$xtext} 
+
+
 
 \subsection{Геометрические примитивы (продолжение)}
 \begin{tikzpicture} [scale=0.75, decoration={coil,aspect=0.4,segment length=3mm,amplitude=3mm}]
@@ -576,5 +644,7 @@ $$
 \draw[ressort,decorate,rotate=0] (-0.75,-3.5)--(0.75,-3.5) node [right=0cm,black] {: пружина с коэффициэнтом жесткости k};
 \end{scope}
 \end{tikzpicture}
+
+\input{praktika_4}
 
 \end{document}
