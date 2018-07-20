@@ -1,4 +1,17 @@
-\documentclass{article}
+\documentclass[14pt]{article}
+
+\usepackage[margin=20mm]{geometry}
+\geometry{
+        a4paper,
+        total={165mm,247mm},
+        top=30mm,
+        bottom=20mm
+%       evenmargin=25mm,
+%       oddsidemargine=20mm
+%       left=20mm
+}
+
+
 \usepackage[utf8]{inputenc}
 \usepackage[russian]{babel}
 \usepackage[usenames]{color}
@@ -52,7 +65,7 @@ decorations.pathreplacing}
 
 \begin{document}
 
-\section{}
+\subsection{введение}
 
 \LaTeX широко используется для оформления научной и технической литературы, статей. На вебсайтах при оформлении формул
 используется \LaTeX. Примеры сайтов -- wikipedia, openedu.ru
@@ -652,4 +665,132 @@ $$
 \input{praktika_5}
 
 \input{zadanie_5}
+
+\section{Практическая работа №6. Электрические схемы}
+\begin{verbatim}
+\begin{tikzpicture}[european]
+        \draw (0,0) to[sV=\SI{220}{volt},l_={V}] (0,4) to[L,l={L}] (4,4);
+        \draw (4,2) node[nigbt](s11) {} (s11.S) to[short] (4,0) (s11.D) to[short] (4,4);
+        \draw (0,0) to[short] (4,0);
+\end{tikzpicture}
+\end{verbatim}
+
+При черчении внутри пути от точки А до точки Б можно вставить элемент электрической схемы, R -- сопротивление, C -- конденсатор, L -- индуктивность.
+
+например:
+\begin{verbatim}
+\begin{tikzpicture}[european]
+\draw (0,0) to[R, l={R}, o-*] (3,0);
+\end{european}
+\end{verbatim}
+\begin{tikzpicture}[european]
+  \draw (0,0) to[R, l={R}, o-*] (3,0);
+\end{tikzpicture}
+
+параметр l позволяет задать подпись к элементу, \texttt{o-*} -- соединение:  \texttt{o} -- незакрашенное соединение, можно использовать для обозначения вводов/выводов.
+\texttt{*} -- закрашенное соединиение, позволяет показать, что перекрестие проводов является соединением.
+Часть проводника можно начертить как \texttt{(0,0)-\,-(2,0)} или как \texttt{ (0,0) to[short]  (2,0)}  
+
+\texttt{$\backslash$draw (4,2) node[nigbt](s11)} -- вставить в точку (4,2) ноду с IGBT-транзистором с именем s11, затем соединить контакты:
+эмиттер с точкой с координатой (4,0): (s11.E) to[short] (4,0) или можно использовать специальное наименование контакта для IGBT-транзистора source: (s11.S)
+и другой контакт
+коллектор (s11.C) с точкой (4,4). Специальное название этого контакта для IGBT-транзостора: drain (s11.D).
+Трехконтактные приборы, такие как тиристоры и транзисторы, IGBT-, MOSFET- транзисторы также позволено соединять как двухконтактные электрические приборы. Соединяются контакты силовой цепи.
+
+\begin{tikzpicture}
+        \draw (0,0) to[sV=\SI{220}{volt},l_={V}] (0,4) to[L,l={L}] (4,4);
+        \draw (4,2) node[nigbt](s11) {} (s11.E) to[short] (4,0) (s11.C) to[short] (4,4);
+        \draw (0,0) to[short] (4,0);
+\end{tikzpicture}
+
+\begin{tikzpicture}
+\newcommand{\D}{5}
+\foreach \f in {0, 5, 10, 15, 20, 25, 30}
+        \draw[red,->,>=stealth'] (0,0) -- ({\D*cos(\f)},{\D*sin(\f)}) node[right] {$\f$};
+\end{tikzpicture}
+
+\subsection{Задание на практическую работу №6}
+\begin{itemize}
+  \item содениение обмоток двух трехфазных трансформатором. обмотки одиного трансворматора соединены между собой звездой, другого -- треугольником
+  \item двухуровневый трехфазный автономный инвертор напряжения;
+  \item сумма двух напряжений: одно -- с частотой $\Omega$, другое -- с частотой $3\Omega$  
+\end{itemize}  
+
+\subsection{Практическая работа №7 Презентация}
+Пример презентации:
+\begin{verbatim}
+\documentclass{beamer}
+\usepackage[T1,T2A]{fontenc}
+\usepackage[utf8]{inputenc} 
+\usepackage[english,russian]{babel}
+\usetheme{Madrid}
+\usepackage{csquotes}
+\newcommand{\quotes}[1]{``#1''}
+%https://www.overleaf.com/help/107-how-to-create-a-basic-slideshow-presentation-in-latex-with-beamer#.V8mZiNFEFqM
+
+
+\title{Информатика}
+\subtitle{Практические занятия}
+%\author{Прокшин АН\\taybola@gmail.com} 
+%\author{\texorpdfstring{Прокшин А.Н.\newline\url{taybola@gmail.com}}{Прокшин Артем Николаевич}}
+\institute{ЛЭТИ}
+
+\begin{document}
+\begin{frame}
+\titlepage
+\end{frame}
+
+\begin{frame}
+  \tableofcontents
+\end{frame}
+
+\section{Порядок сборки ядра}
+\frame{\frametitle{Порядок сборки ядра}
+\begin{itemize}
+\item рекомендуется обновить систему 
+\begin{quote} 
+dnf update 
+\end{quote}
+\item переходим в директорию сборки
+\begin{quote}cd rpmbuild\end{quote}
+\item создаем окружение для сборки пакета
+\begin{quote}rpmdev-setuptree\end{quote}
+
+\item скачиваются исходники ядра \begin{quote}dnf download --source kernel\end{quote}
+\item устанавливаются зависимости для сборки ядра \begin{quote} dnf builddep kernel-4.8.8-400.fc24.x86\_64\end{quote}
+\item скопируем конфиг текущего ядра \begin{quote}cp /boot/config .\end{quote}
+\end{itemize}
+}
+\frame{\frametitle{Порядок сборки ядра}
+\begin{itemize}
+
+\item включим требуемые модули 
+\begin{quote}make menuconfig \end{quote}
+\item make modules\_prepare
+\item make modules
+\item make
+\item Установка
+\begin{itemize}
+\item make modules\_install
+\item make install
+\end{itemize}
+
+\end{itemize} 
+}
+
+\section{включение модулей}
+\frame{\frametitle{make menuconfig}
+
+\begin{figure}[h]
+\center{\includegraphics[width=0.8\linewidth]{1.png}}
+\caption{начальное окно выбора модулей ядра}
+\label{ris:nachalo}
+\end{figure}
+
+}
+
+\end{document}
+\end{verbatim}
+\includepdf[landscape=true,scale=0.8,pages={1-3}]{coord_prokshin_and_co.pdf}
+    
 \end{document}
