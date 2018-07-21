@@ -65,7 +65,21 @@ decorations.pathreplacing}
 
 \begin{document}
 
-\subsection{введение}
+\includepdf[pages=-]{Informatika_praktika_title}
+
+\begin{abstract}
+Излагаются основы оформления документации в издательской системе Латех. Ряд практических работ раскрывает принципы построения аппаратной части компьютеров и компьютерных графических систем.
+Другая часть практических работ предназначена для формирования навыков создания электронных документов электротехнического и общенаучного направления.
+
+Практические работы по дисциплине «Информатика» предназначены для бакалавров по направлению подготовки 13.03.02 «Электроэнергетика и электротехника» профилю «Электропривод и автоматика».
+\end{abstract}
+
+\newpage
+\tableofcontents
+
+\newpage
+
+\subsection{Введение}
 
 \LaTeX широко используется для оформления научной и технической литературы, статей. На вебсайтах при оформлении формул
 используется \LaTeX. Примеры сайтов -- wikipedia, openedu.ru
@@ -660,13 +674,21 @@ $$
 \end{scope}
 \end{tikzpicture}
 
+Пример черчения шара:
+\begin{verbatim}
+\begin{tikzpicture}
+\draw [rounded corners=4pt,color=white,ball color=gray,smooth] 
+              (0,-2.5) circle (0.4) node [right=0.75cm,black];
+\end{tikzpicture}
+\end{verbatim}
+
 \input{praktika_4}
 
 \input{praktika_5}
 
 \input{zadanie_5}
 
-\section{Практическая работа №6. Электрические схемы}
+\subsection{Практическая работа №6. Электрические схемы}
 \begin{verbatim}
 \begin{tikzpicture}[european]
         \draw (0,0) to[sV=\SI{220}{volt},l_={V}] (0,4) to[L,l={L}] (4,4);
@@ -702,6 +724,16 @@ $$
         \draw (4,2) node[nigbt](s11) {} (s11.E) to[short] (4,0) (s11.C) to[short] (4,4);
         \draw (0,0) to[short] (4,0);
 \end{tikzpicture}
+
+Пример построения значений напряжения для разных фаз:
+
+\begin{verbatim}
+\begin{tikzpicture}
+\newcommand{\D}{5}
+\foreach \f in {0, 5, 10, 15, 20, 25, 30}
+        \draw[red,->,>=stealth'] (0,0) -- ({\D*cos(\f)},{\D*sin(\f)}) node[right] {$\f$};
+\end{tikzpicture}
+\end{verbatim}
 
 \begin{tikzpicture}
 \newcommand{\D}{5}
@@ -772,7 +804,7 @@ dnf update
 \item Установка
 \begin{itemize}
 \item make modules\_install
-\item make install
+\item make installп
 \end{itemize}
 
 \end{itemize} 
@@ -791,6 +823,7 @@ dnf update
 
 \end{document}
 \end{verbatim}
-\includepdf[landscape=true,scale=0.8,pages={1-3}]{coord_prokshin_and_co.pdf}
-    
+\includepdf[landscape=true,scale=0.8,pages={1-3}]{Informatika_presentation}
+
+\includepdf[pages=-]{Informatika_praktika_last}
 \end{document}
